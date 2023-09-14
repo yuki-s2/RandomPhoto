@@ -24,6 +24,15 @@ class ViewController: UIViewController {
         return button
     }()
     
+    let colors: [UIColor] = [
+        .systemPink,
+        .systemBlue,
+        .systemCyan,
+        .systemYellow,
+        .systemPurple,
+        .systemOrange
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemPink
@@ -32,13 +41,13 @@ class ViewController: UIViewController {
         imageView.center = view.center
         view.addSubview(button)
         getRandomPhoto()
-        button.addSubview(button)
-        getRandomPhoto()
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
     @objc func didTapButton() {
         getRandomPhoto()
+        
+        view.backgroundColor = colors.randomElement()
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -50,7 +59,7 @@ class ViewController: UIViewController {
         )
     }
     
-    func getRandomPhoto() {
+    func getRandomPhoto() -> Void {
         let urlString = "https://source.unsplash.com/random/600x600"
         let url = URL(string: urlString)!
         
@@ -60,9 +69,7 @@ class ViewController: UIViewController {
                 return
             }
             
-            guard let data = data else {
-                return
-            }
+            guard let data = data else { return }
             
             DispatchQueue.main.async {
                 self.imageView.image = UIImage(data: data)
